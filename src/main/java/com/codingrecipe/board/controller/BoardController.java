@@ -67,4 +67,16 @@ public class BoardController {
         return "detail";
 //        return "redirect:/board?id="+boardDTO.getId();
     }
+
+    // /board/paging/page=?
+    // 처음 페이지는 1 페이지를 보여줌
+    @GetMapping("/paging")
+    public String paging(Model model,
+                         @RequestParam(value = "page", required = false, defaultValue = "1") int page){
+        System.out.println("page = " + page);;
+        //해당 페이지에서 보여쥴 글 목록
+        List<BoardDTO> pagingList = boardService.pagingList(page);
+        System.out.println("pagingList = " + pagingList);
+        return "index";
+    }
 }

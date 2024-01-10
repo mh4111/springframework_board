@@ -5,7 +5,9 @@ import com.codingrecipe.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +36,22 @@ public class BoardService {
 
     public void update(BoardDTO boardDTO) {
         boardRepository.update(boardDTO);
+    }
+
+    public List<BoardDTO> pagingList(int page) {
+        int pageLimit = 3;
+        /*
+            1 페이지당 글 갯수 3
+            1page => 0
+            2page => 3
+            3page => 6
+        */
+        int pageStart = (page - 1) * pageLimit;
+        Map<String, Integer> pagingParams = new HashMap<>();
+        pagingParams.put("start", pageStart);
+        pagingParams.put("limit", pageLimit);
+        List<BoardDTO> pagingList = boardRepository.pagingList(pagingParams);
+
+        return pagingList;
     }
 }
