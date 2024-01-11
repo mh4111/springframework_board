@@ -36,6 +36,11 @@
     <button onclick="updateFn()">수정</button>
     <button onclick="deleteFn()">삭제</button>
 
+    <div>
+        <input type="text" id="commentWriter" placeholder="작성자">
+        <input type="text" id="commentContents" placeholder="내용">
+        <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+    </div>
 </body>
 <script>
     const listFn = () => {
@@ -49,6 +54,29 @@
     const deleteFn = () => {
         const id = '${board.id}';
         location.href = "/board/delete?id=" + id;
+    }
+
+    const  commentWrite = () => {
+        const writer = document.getElementById("commentWriter").value;
+        const comment = document.getElementById("commentContents").values;
+        const board = '${board.id}';
+
+        $.ajax({
+           type: "post",
+            url:"/comment/save",
+            data:{
+               commentWriter: writer,
+                commentContents: comment,
+                boardId: board
+            },
+            dataTypes: "json",
+            success: function (commentList){
+               console.log("작성 완료");
+            },
+            error: function () {
+                console.log("실패");
+            }
+        });
     }
 
 </script>
