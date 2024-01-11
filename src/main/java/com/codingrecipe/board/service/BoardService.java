@@ -1,6 +1,7 @@
 package com.codingrecipe.board.service;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.PageDTO;
 import com.codingrecipe.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,10 @@ public class BoardService {
         boardRepository.update(boardDTO);
     }
 
+
+    int pageLimit = 3;  //한 페이지당 보여줄 글 갯수
+    int blockLimit = 3; //하단에 보여줄 페이지 번호 갯수
     public List<BoardDTO> pagingList(int page) {
-        int pageLimit = 3;
         /*
             1 페이지당 글 갯수 3
             1page => 0
@@ -53,5 +56,28 @@ public class BoardService {
         List<BoardDTO> pagingList = boardRepository.pagingList(pagingParams);
 
         return pagingList;
+    }
+
+    public PageDTO pagingParam(int page) {
+        //전체 글 갯수 조회
+        int boardCount = boardRepository.boardCount();
+
+        //전체 페이지 갯수 계산
+        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
+
+        //시작 페이지 값
+        int startPage = (((int) (Math.ceil((double) page/blockLimit))) -1) * blockLimit + 1;
+
+        //끝 페이지 값
+        int endPage = startPage + blockLimit - 1;
+        if(endPage > maxPage){
+            endPage = maxPage;
+        }
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPage(page);
+        pageDTO.setMaxPage(maxPage);
+        pageDTO.setStartPage(startPage);
+        pageDTO.setEndPage(endPage);
+        return pageDTO;
     }
 }
