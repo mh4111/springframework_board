@@ -72,6 +72,7 @@
             dataTypes: "json",
             success: function (commentList){
                console.log("작성 완료");
+               console.log(commentList);
             },
             error: function () {
                 console.log("실패");

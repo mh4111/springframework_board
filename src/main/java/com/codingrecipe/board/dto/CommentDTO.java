@@ -10,10 +10,9 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 public class CommentDTO {
-
     private Long id;
     private String commentWriter;
-    private String CommentContents;
+    private String commentContents;
     private Long boardId;
     private Timestamp commentCreatedTime;
 }
