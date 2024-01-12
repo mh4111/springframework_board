@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class CommentRepository {
+
     private final SqlSessionTemplate sql;
 
     public void save(CommentDTO commentDTO) {
